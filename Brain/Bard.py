@@ -12,11 +12,11 @@ import keyboard
 def CookieScrapper():
     webbrowser.open("https://bard.google.com")
     sleep(5)
-    pyautogui.click(x=1735, y=65)
+    pyautogui.click(x=1775, y=65)
     sleep(1)
-    pyautogui.click(x=1510, y=248)
-    sleep(1)
-    pyautogui.click(x=1451, y=106)
+    pyautogui.click(x=1568, y=239)
+    sleep(5)
+    pyautogui.click(x=1493, y=109)
     sleep(1)
     keyboard.press_and_release('ctrl + w')
 
