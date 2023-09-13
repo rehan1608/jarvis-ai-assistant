@@ -89,16 +89,36 @@ def exit(q):
             print(".",end="")
         sleep(1)
         return True
-    
+
+print("Starting the Bard model...")
 # Main Execution
 while True:
-    Question = input("Enter The Query : ")
-    RealQuestion = str(Question)
-    if exit(RealQuestion):
-        break
-    results = bard.get_answer(RealQuestion)['content']
-    current_datetime = datetime.datetime.now()
-    formatted_time = current_datetime.strftime("%H%M%S")
-    filenamedate = str(formatted_time) + str(".txt")
-    filenamedate = r"DataBase/" + filenamedate
-    print(split_and_save_paragraphs(results, filename=filenamedate))
+    try:
+        file=open("../Body/SpeechRecognition.txt","r")
+        data=file.read()
+        file.close()
+        fileHistory=open("HistoryChat.txt","r")
+        dataHistory=fileHistory.read()
+        fileHistory.close()
+        
+        if str(data)==str(dataHistory):
+            sleep(0.5)
+            pass
+        else:
+            RealQuestion = str(data)
+            if exit(RealQuestion):
+                break
+            
+            results = bard.get_answer(RealQuestion)['content']
+            current_datetime = datetime.datetime.now()
+            formatted_time = current_datetime.strftime("%H%M%S")
+            filenamedate = str(formatted_time) + str(".txt")
+            filenamedate = r"DataBase/" + filenamedate
+            print(split_and_save_paragraphs(results, filename=filenamedate))
+            
+            fileHistory=open("HistoryChat.txt","w")
+            fileHistory.write(data)
+            fileHistory.close()
+        
+    except Exception as e:
+        print(e)

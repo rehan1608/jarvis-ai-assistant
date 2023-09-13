@@ -29,6 +29,8 @@ def FileWriter(Data):
     
 def ChatGPTBrain(Query):
     Query = str(Query)
+    if "exit" in Query or "quit" in Query:
+        return False
     driver.find_element(by=By.XPATH,value="/html/body/div[1]/div/div/main/article/div/div/div/div/div/div/div[2]/div/div/div[2]/div/textarea").send_keys(Query)
     sleep(1)
     driver.find_element(by=By.XPATH,value="/html/body/div[1]/div/div/main/article/div/div/div/div/div/div/div[2]/div/div/div[2]/button/span").click()
@@ -58,14 +60,26 @@ FileWriter(Data='3')
 
 while True:
     try:
-        Query = input("Enter Your Query : ")
-        if "quit" in Query or "exit" in Query:
-            print("Quiting Please wait .",end="")
-            for i in range(2):
-                sleep(1)
-                print(".",end="")
-            sleep(1)
-            break
-        print(ChatGPTBrain(Query=Query))
-    except:
-        pass
+        file=open(r"../Body/SpeechRecognition.txt","r")
+        data=file.read()
+        file.close()
+        fileHistory=open("HistoryChat.txt","r")
+        dataHistory=fileHistory.read()
+        fileHistory.close()
+        
+        if str(data)==str(dataHistory):
+            sleep(0.5)
+            pass
+        else:
+            result=ChatGPTBrain(data)
+            if result==False:
+                break
+            print(result)
+
+            fileHistory=open("HistoryChat.txt","w")
+            fileHistory.write(data)
+            fileHistory.close()
+        
+            
+    except Exception as e:
+        print(e)
